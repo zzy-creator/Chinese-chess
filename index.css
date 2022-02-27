@@ -1,0 +1,32 @@
+body {
+    background-color: rgba(233, 233, 233, 0.418);
+}
+    
+div.td {
+    display: inline-block;
+}
+
+div.label {
+    font-size: 17px;
+    padding:2px;
+    font-weight: bold;
+}
+
+select {
+    font-size: 14px;
+    width: 180px;
+    padding:2px;
+}
+
+option {
+    font-size: 14px;
+}
+
+input.button {
+    font-size: 16px;
+    width: 180px;
+}
+
+label {
+    font-size: 14px;
+}

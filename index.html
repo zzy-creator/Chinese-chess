@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="cmn-hans">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>中国象棋</title>
+    <script src="chessboard.js"></script>
+    <script src="position.js"></script>
+    <script src="search.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+  </head>
+  <body>
+    <div style="height:16px">
+    </div>
+    <div style="text-align:center;white-space:nowrap">
+      <div style="text-align:center;font-size:32px;font-family:楷体;margin-bottom:6px;letter-spacing:8px;font-weight:bold;">
+        中国象棋
+      </div>
+      <div style="text-align:center;font-size:32px;font-family:楷体;margin-bottom:6px;letter-spacing:8px;font-weight:bold;">
+        by zzy
+      </div>
+      <div class="td" style="margin-right:10px">
+        <div id="container">
+        </div>
+      </div>
+      <div class="td" style="vertical-align:top;width:192px;">
+	      <div class="label">
+          模式选择
+        </div>
+        <div>
+          <select id="selMoveMode" size="3">
+            <option selected value="0">玩家先手</option>
+            <option value="1">电脑先手</option>
+            <option value="2">双人对战</option>
+          </select>
+        </div>
+        <div class="label">先手让子设置</div>
+        <div>
+          <select id="selHandicap" style="padding:0px" size="8">
+            <option selected="" value="0">不让子</option>
+            <option value="1">让左馬</option>
+            <option value="2">让双馬</option>
+            <option value="3">让左砲</option>
+            <option value="4">让双砲</option>
+            <option value="5">让左車</option>
+            <option value="6">让双車</option>
+            <option value="7">让小兵</option>
+            <option value="8">让左半</option>
+            <option value="9">让九子</option>
+          </select>
+        </div>
+        <div style="padding-top:2px"><input type="button" class="button" value="重新开始" onclick="restart_click()"></div>
+        <div style="padding-top:2px"><input type="button" class="button" value="悔棋" onclick="retract_click()"></div>
+        <div class="label">
+          搜索状态信息
+        </div>
+        <div>
+          <select id="stateList" size="6" style="font-family:宋体">
+          </select>
+        </div>
+      </div>
+    </div>
+    <script>
+  "use strict";
+
+  // 可供选择的开局局面
+  var STARTUP_FEN = [
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/RNBAKABNR w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/R1BAKABNR w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/R1BAKAB1R w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/7C1/9/RNBAKABNR w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/9/9/RNBAKABNR w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/1NBAKABNR w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/P1P1P1P1P/1C5C1/9/1NBAKABN1 w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/9/1C5C1/9/RNBAKABNR w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/4P1P1P/7C1/9/3AKABNR w",
+    "rnbakabnr/9/1c5c1/p1p1p1p1p/9/9/9/1C5C1/9/RN2K2NR w",
+  ];
+
+  var board = new Board(container, "images/", stateList);	// 实例化棋盘对象
+  board.setSearch();								// 设置搜索算法
+
+  // 重新开始
+  function restart_click() {
+    if (board.busy) return;
+    board.computer = 1 - selMoveMode.selectedIndex;			// 根据用户选择，决定电脑执黑还是执红
+    board.restart(STARTUP_FEN[selHandicap.selectedIndex]);	// 使用用户选择的开局局面，初始化棋局
+    stateList.innerHTML = "";
+  }
+
+  // 悔棋
+  function retract_click() {
+    if (board.busy) return;
+    board.retract();
+  }
+  restart_click();
+    </script>
+  </body>
+</html>
